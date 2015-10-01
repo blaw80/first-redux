@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class SongNodes extends Component{
+class Song extends Component{
   render(){
     return(
       <tr>
@@ -22,7 +22,7 @@ class SongNodes extends Component{
 export default class Library extends Component {
   render(){
     let initialData = this.props.library;
-    let songnodes = initialData.map(node => (<SongNodes onAddClick={this.props.onAddClick} trackinfo={node} />));
+    let songnodes = initialData.map((node, index) => <Song key={index} onAddClick={this.props.onAddClick} trackinfo={node} />);
 
     return (
         <div className='col-md-4'>
