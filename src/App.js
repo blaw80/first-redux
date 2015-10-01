@@ -1,39 +1,39 @@
-import React, { Component } from 'react';
-import { NICE, SUPER_NICE } from './colors';
+import React, { Component, Proptypes } from 'react';
+import { createStore, combineReducers, compose } from 'redux';
+import { devTools, persistState } from 'redux-devtools';
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+import { Provider } from 'react-redux';
 
-class Counter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { counter: 0 };
-    this.interval = setInterval(() => this.tick(), 1000);
-  }
+import musicApp from './reducers.js';
+import MusicApp from './components/musicbox.js';
 
-  tick() {
-    this.setState({
-      counter: this.state.counter + this.props.increment
-    });
-  }
+const finalCreateStore = compose(
+  devTools(),
+  persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+)(createStore);
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+const store = finalCreateStore(musicApp);
 
-  render() {
-    return (
-      <h1 style={{ color: this.props.color }}>
-        Counter ({this.props.increment}): {this.state.counter}
-      </h1>
-    );
-  }
-}
-
-export class App extends Component {
-  render() {
+export default class App extends Component {
+  render(){
     return (
       <div>
-        <Counter increment={1} color={NICE} />
-        <Counter increment={5} color={SUPER_NICE} />
+        <Provider store={store}>
+          {() => <MusicApp store={store}/>}
+        </Provider>
+        <DebugPanel top right bottom>
+        <DevTools store={store}
+                  monitor={LogMonitor}
+                  visibleOnLoad={true} />
+        </DebugPanel>
       </div>
     );
   }
 }
+
+// Dispatch some actions
+// store.dispatch(addTrack({url: '#', song: '1234', artist:'pppppp'}));
+// store.dispatch(addTrack('listen about reducers'));
+// store.dispatch(addTrack('Learn about drugs'));
+// store.dispatch(removeTrack(2));
+//store.dispatch(removeTrack(2));
