@@ -1,7 +1,6 @@
-// import * as type from './actiontypes';
-import ADD_TRACK from './actiontypes.js';
-import REMOVE_TRACK from './actiontypes.js';
-import LOAD_LIBRARY from './actiontypes.js';
+import { ADD_TRACK } from './actiontypes.js';
+import { REMOVE_TRACK } from './actiontypes.js';
+import { LOAD_LIBRARY } from './actiontypes.js';
 //action creators
 
 export function addTrack(trackinfo){
