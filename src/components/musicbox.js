@@ -9,23 +9,24 @@ import Library from './songlibitems.js';
 
 class MusicApp extends Component {
   render(){
-    let store = this.props.store;
+    const { dispatch } = this.props;
     return (
       <div className='row' style={{margin: 50 + 'px'}}>
         <h1>music app</h1>
-        <Library library={this.props.library} onAddClick={( trackinfo ) => store.dispatch(addTrack(trackinfo))} />
-        <Playlist playlist={this.props.playlist} onRemoveClick={ (trackinfo) =>  store.dispatch(removeTrack(trackinfo)) } />
+        <Library library={this.props.library} onAddClick={trackinfo => dispatch(addTrack(trackinfo))} />
+        <Playlist playlist={this.props.playlist} onRemoveClick={trackinfo => dispatch(removeTrack(trackinfo))} />
       </div>
     );
   }
 }
-function select(state){ return{
+
+function mapGlobalStateToProps(state){ return{
   library: state.library,
   playlist: state.playlist
   }
 }
 
-export default connect(select)(MusicApp);
+export default connect(mapGlobalStateToProps)(MusicApp);
 
 //
 // function mapState(state){

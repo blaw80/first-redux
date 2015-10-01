@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-import  ADD_TRACK from  './actiontypes.js';
-import  REMOVE_TRACK  from  './actiontypes.js';
-import  LOAD_LIBRARY  from  './actiontypes.js';
+import { ADD_TRACK } from './actiontypes.js';
+import { REMOVE_TRACK } from './actiontypes.js';
+import { LOAD_LIBRARY }  from './actiontypes.js';
 
 function playlist(state = [], action){
 
@@ -31,7 +31,8 @@ function library(state = initialLibState, action){
   switch (action.type){
     case LOAD_LIBRARY:
       return state
-  default: return state
+    default:
+      return state
   }
 }
 
