@@ -19,9 +19,12 @@ class PlaylistItem extends Component{
 export default class Playlist extends Component{
 
   render(){
-    let playlistNodes = this.props.playlist.map( (node, index) =>
-      { node.key = index;
-        return (<PlaylistItem trackinfo={node} onRemoveClick={this.props.onRemoveClick} />); } );
+    let playlistNodes = this.props.playlist.map((node, index) => {
+      node.key = index;
+      return (
+        <PlaylistItem key={index} trackinfo={node} onRemoveClick={this.props.onRemoveClick} />
+      );
+    });
 
     return (
       <div className='col-md-8' style={{maxWidth: 400 +'px'}} >

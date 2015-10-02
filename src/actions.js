@@ -1,19 +1,5 @@
-import { ADD_TRACK } from './actiontypes.js';
-import { REMOVE_TRACK } from './actiontypes.js';
-import { LOAD_LIBRARY } from './actiontypes.js';
-//action creators
+import { createAction } from 'redux-actions'
 
-export function addTrack(trackinfo){
-  return {type: ADD_TRACK,
-          trackinfo };
-}
-
-export function removeTrack(trackinfo){
-  return {type: REMOVE_TRACK,
-          trackinfo };
-}
-
-export function loadLibrary(filters){
-  return {type: LOAD_LIBRARY,
-          filters };
-}
+export const addTrack = createAction('ADD_TRACK')
+export const removeTrack = createAction('REMOVE_TRACK')
+export const loadLibrary = createAction('LOAD_LIBRARY')
