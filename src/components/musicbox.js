@@ -19,8 +19,8 @@ class MusicApp extends Component {
         <Library library={this.props.library} onAddClick={trackinfo => dispatch(addTrack(trackinfo))} />
 
         <div className='col-md-8' style={{maxWidth: 400 +'px'}} >
-          <AudioPlayer
-          src='https://archive.org/download/BlindLemonJefferson-TheEssential/06%20Rabbit%20Foot%20Blues.mp3' />
+
+          <AudioPlayer src={this.props.player.url} />
           <h2>current playlist:</h2>
           <Playlist playlist={this.props.playlist}
                     onRemoveClick={trackinfo => dispatch(removeTrack(trackinfo))}

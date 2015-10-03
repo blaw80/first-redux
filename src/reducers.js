@@ -9,7 +9,8 @@ const playlist = handleActions({
       artist: action.payload.artist,
       title: action.payload.songtitle,
       url: action.payload.url,
-      _id: action.payload._id
+      _id: action.payload._id,
+      currentlyPlaying: false
     }
   ]),
   REMOVE_TRACK: (state, action) => state.filter((element, index) => element.key !== action.payload.key)
@@ -21,7 +22,6 @@ const library = handleActions({
 
 const player = handleActions({
   PLAY_TRACK: (state, action) => action.payload
-
 }, {})
 
 const musicApp = combineReducers({
