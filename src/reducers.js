@@ -19,9 +19,21 @@ const library = handleActions({
   LOAD_LIBRARY: (state, action) => state
 }, initialLibraryRecords)
 
+const player = handleActions({
+  PLAY_TRACK: (state = {}, action) => ([
+    ...state,
+    {
+      artist: action.payload.artist,
+      title: action.payload.songtitle,
+      url: action.payload.url,
+    }
+  ])
+})
+
 const musicApp = combineReducers({
   playlist,
-  library
+  library,
+  player
 });
 
 export default musicApp;
