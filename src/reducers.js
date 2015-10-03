@@ -20,15 +20,9 @@ const library = handleActions({
 }, initialLibraryRecords)
 
 const player = handleActions({
-  PLAY_TRACK: (state = {}, action) => ([
-    ...state,
-    {
-      artist: action.payload.artist,
-      title: action.payload.songtitle,
-      url: action.payload.url,
-    }
-  ])
-})
+  PLAY_TRACK: (state, action) => action.payload
+
+}, {})
 
 const musicApp = combineReducers({
   playlist,

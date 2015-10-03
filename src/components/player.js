@@ -15,25 +15,21 @@ class Controls extends React.Component {
 }
 
 export default class AudioPlayer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
-  componentDidMount() {
-    let playerElement = React.findDOMNode(this.refs.player);
-
-    playerElement.addEventListener('canplay', this.audioReady);
-    playerElement.addEventListener('ended', this.audioEnded);
-    playerElement.addEventListener('timeupdate', this.audioUpdate);
-    playerElement.addEventListener('pause', this.audioPause);
-  }
-
-  audioUpdate() {
+      componentDidMount() {
         let playerElement = React.findDOMNode(this.refs.player);
-        // alert('current time is: '+ playerElement.currentTime );
-        this.props.time = playerElement.currentTime;
-  }
+
+        playerElement.addEventListener('canplay', this.audioReady);
+        playerElement.addEventListener('ended', this.audioEnded);
+        playerElement.addEventListener('timeupdate', this.audioUpdate);
+        playerElement.addEventListener('pause', this.audioPause);
+      }
+
+      audioUpdate() {
+            let playerElement = React.findDOMNode(this.refs.player);
+            // alert('current time is: '+ playerElement.currentTime );
+            return playerElement.currentTime;
+      }
 
   render(){
     return (
@@ -42,7 +38,7 @@ export default class AudioPlayer extends React.Component {
         <audio ref='player' controls id='player'>
          <source src={this.props.src}/>
        </audio>
-        <ProgressBar time={this.props.currentTime} />
+        <ProgressBar time={this.audioUpdate} />
         <Controls alertClick={this.audioUpdate.bind(this)} />
       </div>
     );
