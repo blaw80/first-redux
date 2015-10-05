@@ -21,7 +21,7 @@ class Song extends Component{
 
 export default class Library extends Component {
   render(){
-    let initialData = this.props.library;
+    let initialData = this.props.songs;
     let songnodes = initialData.map((node, index) => <Song key={index} onAddClick={this.props.onAddClick} trackinfo={node} />);
 
     return (
