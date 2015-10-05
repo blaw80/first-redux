@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 class ProgressBar extends React.Component{
+
   render(){
-    return <h2>The current time is: {this.props.time} </h2>
+    return <h2>The current time is: {Math.floor(this.props.time)} </h2>
   }
 }
 
@@ -21,14 +22,12 @@ export default class AudioPlayer extends React.Component {
 
         playerElement.addEventListener('canplay', this.audioReady);
         playerElement.addEventListener('ended', this.audioEnded);
-        playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this));
+        playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this, playerElement));
         playerElement.addEventListener('pause', this.audioPause);
       }
 
-      audioUpdate() {
-        let playerElement = React.findDOMNode(this.refs.player);
-        return playerElement.currentTime
-            // alert('current time is: '+ playerElement.currentTime );
+      audioUpdate(playerElement) {
+        this.props.updateTime(playerElement.currentTime);
       }
 
       playAudio(){
@@ -44,7 +43,7 @@ export default class AudioPlayer extends React.Component {
         <audio ref='player' controls >
          <source src={this.props.src}/>
        </audio>
-        <ProgressBar time={this.audioUpdate} />
+        <ProgressBar time={this.props.time} />
         <Controls playClick={this.playAudio.bind(this)} />
       </div>
     );

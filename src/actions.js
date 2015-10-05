@@ -5,10 +5,14 @@ export const addTrack = createAction('ADD_TRACK')
 export const removeTrack = createAction('REMOVE_TRACK')
 
 export const playTrack = createAction('PLAY_TRACK')
+export const updateTime = createAction('UPDATE_TIME')
+
 export function loadLibrary() {
   return (dispatch, getState) => {
     dispatch(loadLibraryStarted())
-    LibraryClient.Create().loadSongsFrom('http://meaningless-url/', songs => dispatch(loadLibrarySucceeded({ songs })), errorMessage => dispatch(loadLibraryFailed({ errorMessage })))
+    LibraryClient.Create().loadSongsFrom('http://mixtape.press/play/tracklist',
+                                          songs => dispatch(loadLibrarySucceeded({ songs })),
+                                          errorMessage => dispatch(loadLibraryFailed({ errorMessage })))
   }
 }
 

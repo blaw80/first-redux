@@ -48,8 +48,9 @@ const library = handleActions({
 })
 
 const player = handleActions({
-  PLAY_TRACK: (state, action) => action.payload
-}, {})
+  PLAY_TRACK: (state, action) => ( {time: state.time, playing: action.payload}),
+  UPDATE_TIME: (state, action) => ({playing: state.playing, time: action.payload})
+}, { playing: {url: ''}, time: 0 } )
 
 const musicApp = combineReducers({
   playlist,
