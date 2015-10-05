@@ -6,8 +6,9 @@ class Song extends Component{
       <tr>
         <th>{this.props.trackinfo.songtitle}</th>
         <th>{this.props.trackinfo.artist}</th>
-        <th><span onClick={(e) => this.handleInfoClick(e)}>i</span></th>
-        <th><span onClick={(e) => this.handleAddClick(e)}>+</span></th>
+        <th><span className="infobutton fa fa-info-circle" onClick={(e) => this.handleInfoClick(e)}>
+        </span></th>
+        <th><span className="addtoplaylist fa fa-plus-circle" onClick={(e) => this.handleAddClick(e)}></span></th>
     </tr>
     );
   }

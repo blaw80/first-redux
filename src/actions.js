@@ -4,6 +4,7 @@ import LibraryClient from './data-access/LibraryClient'
 export const addTrack = createAction('ADD_TRACK')
 export const removeTrack = createAction('REMOVE_TRACK')
 
+export const playTrack = createAction('PLAY_TRACK')
 export function loadLibrary() {
   return (dispatch, getState) => {
     dispatch(loadLibraryStarted())
