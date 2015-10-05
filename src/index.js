@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import configureStore from './configureStore'
 
 import musicApp from './reducers.js';
-import MusicApp from './components/musicbox.js';
+import MusicApp from './components/MusicApp';
 
 const store = configureStore();
 
