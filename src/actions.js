@@ -5,8 +5,13 @@ export const addTrack = createAction('ADD_TRACK')
 export const removeTrack = createAction('REMOVE_TRACK')
 
 export const playTrack = createAction('PLAY_TRACK')
-export const updateTime = createAction('UPDATE_TIME')
+export const updateTime = createAction('UPDATE_TIME', audioTimeFunction)
 export const togglePlay = createAction('TOGGLE_PLAY')
+
+function audioTimeFunction(currentTime, duration){
+  console.log('audioTimeFunction fired');
+  return { currentTime: Math.floor(currentTime), duration: duration };
+}
 
 export function loadLibrary() {
   return (dispatch, getState) => {

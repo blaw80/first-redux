@@ -3,7 +3,17 @@ import React, { Component } from 'react';
 class ProgressBar extends React.Component{
 
   render(){
-    return <h2>The current time is: {Math.floor(this.props.time)} </h2>
+    let elapsed = Math.floor((Math.floor(this.props.time) / Math.floor(this.props.duration)) * 100);
+
+    return <div>
+            <h2>The current elapsed stime is: {elapsed} </h2>
+            <div className="progress">
+              <div className="progress-bar" role="progressbar" aria-valuenow={elapsed}
+                    aria-valuemin="0" aria-valuemax="100" style={{width: elapsed + '%' }}>
+                <span className="sr-only">60% Complete</span>
+              </div>
+            </div>
+          </div>
   }
 }
 
@@ -14,11 +24,13 @@ class Controls extends React.Component {
     let pause =<i className='fa fa-pause'></i>;
     return (
       <div>
+        <button type="button"
+                className="btn btn-default">RW</button>
         <button onClick={this.props.playClick}
                 type="button"
                 className="btn btn-default">{this.props.isPlaying ? pause : play }</button>
         <button type="button"
-                className="btn btn-default"></button>
+                className="btn btn-default">ff</button>
       </div>
     );
   }
@@ -42,7 +54,7 @@ export default class AudioPlayer extends React.Component {
         this.props.togglePlay(bool);
       }
       audioUpdate(playerElement) {
-        this.props.updateTime(playerElement.currentTime);
+        this.props.updateTime(playerElement.currentTime, playerElement.duration);
       }
       playAudio(){
         let playerElement = React.findDOMNode(this.refs.player);
@@ -63,7 +75,7 @@ export default class AudioPlayer extends React.Component {
         <audio ref='player' controls >
          <source src={this.props.src}/>
        </audio>
-        <ProgressBar time={this.props.time} />
+        <ProgressBar time={this.props.time} duration={this.props.duration} />
         <Controls playClick={this.playAudio.bind(this)}
                   isPlaying={this.props.isPlaying} />
       </div>

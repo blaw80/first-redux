@@ -20,9 +20,10 @@ class MusicApp extends Component {
           <div className='col-md-8' style={{maxWidth: 400 +'px'}} >
             <AudioPlayer src={this.props.player.playing.url}
                           time={this.props.player.time}
+                          duration={this.props.player.duration}
                           isPlaying={this.props.player.playing.currentlyPlaying}
                           togglePlay={(bool)=> dispatch(togglePlay(bool))}
-                          updateTime={currentTime => dispatch(updateTime(currentTime))} />
+                          updateTime={(currentTime, duration) => dispatch(updateTime(currentTime, duration))} />
             <h2>current playlist:</h2>
             <Playlist playlist={this.props.playlist}
                       onRemoveClick={trackinfo => dispatch(removeTrack(trackinfo))}
