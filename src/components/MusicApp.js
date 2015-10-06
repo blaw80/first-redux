@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect, dispatch } from 'react-redux';
-import { addTrack, removeTrack, loadLibrary, playTrack, updateTime } from '../actions.js';
+import { addTrack, removeTrack, loadLibrary, playTrack, updateTime, togglePlay } from '../actions.js';
 
 import AudioPlayer from './player.js';
 import Playlist from './Playlist';
@@ -20,6 +20,8 @@ class MusicApp extends Component {
           <div className='col-md-8' style={{maxWidth: 400 +'px'}} >
             <AudioPlayer src={this.props.player.playing.url}
                           time={this.props.player.time}
+                          isPlaying={this.props.player.playing.currentlyPlaying}
+                          togglePlay={(bool)=> dispatch(togglePlay(bool))}
                           updateTime={currentTime => dispatch(updateTime(currentTime))} />
             <h2>current playlist:</h2>
             <Playlist playlist={this.props.playlist}

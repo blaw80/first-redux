@@ -8,9 +8,18 @@ class ProgressBar extends React.Component{
 }
 
 class Controls extends React.Component {
+
   render(){
+    let play =<i className='fa fa-play'></i>;
+    let pause =<i className='fa fa-pause'></i>;
     return (
-        <button onClick={this.props.playClick} type="button" className="btn btn-default">play</button>
+      <div>
+        <button onClick={this.props.playClick}
+                type="button"
+                className="btn btn-default">{this.props.isPlaying ? pause : play }</button>
+        <button type="button"
+                className="btn btn-default"></button>
+      </div>
     );
   }
 }
@@ -20,20 +29,31 @@ export default class AudioPlayer extends React.Component {
       componentDidMount() {
         let playerElement = React.findDOMNode(this.refs.player);
 
+        playerElement.addEventListener('playing', this.togglePlay.bind(this, true));
+        playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
+
         playerElement.addEventListener('canplay', this.audioReady);
         playerElement.addEventListener('ended', this.audioEnded);
         playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this, playerElement));
         playerElement.addEventListener('pause', this.audioPause);
       }
 
+      togglePlay(bool){
+        this.props.togglePlay(bool);
+      }
       audioUpdate(playerElement) {
         this.props.updateTime(playerElement.currentTime);
       }
-
       playAudio(){
         let playerElement = React.findDOMNode(this.refs.player);
-        playerElement.load();
-        playerElement.play();
+        if ( this.props.isPlaying )
+          {
+            playerElement.pause();
+          }
+        else {
+          playerElement.load();
+          playerElement.play();
+        }
       }
 
   render(){
@@ -44,7 +64,8 @@ export default class AudioPlayer extends React.Component {
          <source src={this.props.src}/>
        </audio>
         <ProgressBar time={this.props.time} />
-        <Controls playClick={this.playAudio.bind(this)} />
+        <Controls playClick={this.playAudio.bind(this)}
+                  isPlaying={this.props.isPlaying} />
       </div>
     );
   }

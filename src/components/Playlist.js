@@ -10,13 +10,13 @@ class PlaylistItem extends Component{
   handlePlayClick(e){
     e.preventDefault();
     this.props.onPlayClick(this.props.trackinfo);
+    // use a promise here to start the player after track is loaded?
   }
 
   render(){
     return(
-      <li className='list-group-item'>{this.props.trackinfo.title }, {this.props.trackinfo.artist}
-      <span className='fa fa-play' style={{marginLeft: 10 + 'px'}}
-      onClick={ (e)=> this.handlePlayClick(e) }></span>
+      <li className='list-group-item'>
+      <span onDoubleClick={(e)=> this.handlePlayClick(e)}>{this.props.trackinfo.title }, {this.props.trackinfo.artist}</span>
        <span onClick={(e) => this.handleRemoveClick(e)}
        className="fa fa-trash-o"
        style={{float:'right'}}></span></li>

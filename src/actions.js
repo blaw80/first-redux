@@ -6,6 +6,7 @@ export const removeTrack = createAction('REMOVE_TRACK')
 
 export const playTrack = createAction('PLAY_TRACK')
 export const updateTime = createAction('UPDATE_TIME')
+export const togglePlay = createAction('TOGGLE_PLAY')
 
 export function loadLibrary() {
   return (dispatch, getState) => {
