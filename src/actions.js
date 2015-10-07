@@ -5,8 +5,8 @@ export const addTrack = createAction('ADD_TRACK')
 export const removeTrack = createAction('REMOVE_TRACK')
 
 export const playTrack = createAction('PLAY_TRACK')
-export const updateTime = createAction('UPDATE_TIME', audioTimeFunction)
 export const togglePlay = createAction('TOGGLE_PLAY')
+export const updateTime = createAction('UPDATE_TIME', audioTimeFunction)
 
 function audioTimeFunction(currentTime, duration){
   console.log('audioTimeFunction fired');

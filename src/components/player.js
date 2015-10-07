@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 
 class ProgressBar extends React.Component{
+  handleClick(e){
+    let duration = Math.floor(this.props.duration);
+    let position = e.nativeEvent.offsetX;
+    let barWidth = React.findDOMNode(this.refs.pbar).clientWidth;
+
+    let newPosition = duration * ( position / barWidth );
+    let playerElement = document.getElementById('player');
+    playerElement.currentTime = newPosition;
+  }
 
   render(){
     let elapsed = Math.floor((Math.floor(this.props.time) / Math.floor(this.props.duration)) * 100);
 
     return <div>
-            <h2>The current elapsed stime is: {elapsed} </h2>
-            <div className="progress">
+            <h2>The current elapsed time is: {elapsed} </h2>
+            <div className="progress" onClick={this.handleClick.bind(this)} ref='pbar'>
               <div className="progress-bar" role="progressbar" aria-valuenow={elapsed}
                     aria-valuemin="0" aria-valuemax="100" style={{width: elapsed + '%' }}>
-                <span className="sr-only">60% Complete</span>
+                <span className="sr-only"></span>
               </div>
             </div>
           </div>
@@ -72,10 +81,11 @@ export default class AudioPlayer extends React.Component {
     return (
       <div>
         <h1>audio player</h1>
-        <audio ref='player' controls >
+        <audio ref='player' id='player' controls >
          <source src={this.props.src}/>
        </audio>
-        <ProgressBar time={this.props.time} duration={this.props.duration} />
+        <ProgressBar time={this.props.time}
+                      duration={this.props.duration} />
         <Controls playClick={this.playAudio.bind(this)}
                   isPlaying={this.props.isPlaying} />
       </div>

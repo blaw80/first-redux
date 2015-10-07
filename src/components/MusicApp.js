@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect, dispatch } from 'react-redux';
-import { addTrack, removeTrack, loadLibrary, playTrack, updateTime, togglePlay } from '../actions.js';
+import { addTrack, removeTrack, loadLibrary, playTrack, updateTime,
+        togglePlay } from '../actions.js';
 
 import AudioPlayer from './player.js';
 import Playlist from './Playlist';
