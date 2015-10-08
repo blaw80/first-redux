@@ -41,7 +41,9 @@ export default class Controls extends React.Component {
     this.props.togglePlay(bool);
   }
   audioUpdate(playerElement) {
-    this.props.updateTime(playerElement.currentTime, playerElement.duration);
+    if (Math.floor(playerElement.currentTime) !== this.props.time){
+      this.props.updateTime(playerElement.currentTime, playerElement.duration);
+    }
   }
   playAudio(){
     let playerElement = React.findDOMNode(this.refs.player);

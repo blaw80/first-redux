@@ -11,6 +11,7 @@ class PlaylistItem extends Component{
     e.preventDefault();
     this.props.onPlayClick(this.props.trackinfo);
     // use a promise here to start the player after track is loaded?
+    // if so: send duration to the store here instead of on updateTime?
   }
 
   render(){
