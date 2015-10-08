@@ -19,15 +19,15 @@ class MusicApp extends Component {
         <Library songs={this.props.library.songs}
                   onAddClick={trackinfo => dispatch(addTrack(trackinfo))} />
 
-          <AudioPlayer src={this.props.player.playing.url}
-                      time={this.props.player.time}
-                      duration={this.props.player.duration}
-                      isPlaying={this.props.player.playing.currentlyPlaying}
-                      togglePlay={(bool)=> dispatch(togglePlay(bool))}
-                      updateTime={(currentTime, duration) => dispatch(updateTime(currentTime, duration))}
-                      playlist={this.props.playlist}
-                      onRemoveClick={trackinfo => dispatch(removeTrack(trackinfo))}
-                      onPlayClick={trackinfo => dispatch(playTrack(trackinfo))}  />
+        <AudioPlayer src={this.props.player.playing.url}
+                    time={this.props.player.time}
+                    duration={this.props.player.duration}
+                    isPlaying={this.props.player.playing.currentlyPlaying}
+                    togglePlay={(bool)=> dispatch(togglePlay(bool))}
+                    updateTime={(currentTime, duration) => dispatch(updateTime(currentTime, duration))}
+                    playlist={this.props.playlist}
+                    onRemoveClick={trackinfo => dispatch(removeTrack(trackinfo))}
+                    onPlayClick={trackinfo => dispatch(playTrack(trackinfo))}  />
       </div>
     );
   }
