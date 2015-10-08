@@ -3,8 +3,7 @@ import { connect, dispatch } from 'react-redux';
 import { addTrack, removeTrack, loadLibrary, playTrack, updateTime,
         togglePlay } from '../actions.js';
 
-import AudioPlayer from './player.js';
-import Playlist from './Playlist';
+import AudioPlayer from './Player.js';
 import Library from './Library';
 import StatusBar from './StatusBar';
 
@@ -24,11 +23,10 @@ class MusicApp extends Component {
                           duration={this.props.player.duration}
                           isPlaying={this.props.player.playing.currentlyPlaying}
                           togglePlay={(bool)=> dispatch(togglePlay(bool))}
-                          updateTime={(currentTime, duration) => dispatch(updateTime(currentTime, duration))} />
-            <h2>current playlist:</h2>
-            <Playlist playlist={this.props.playlist}
-                      onRemoveClick={trackinfo => dispatch(removeTrack(trackinfo))}
-                      onPlayClick={trackinfo => dispatch(playTrack(trackinfo))} />
+                          updateTime={(currentTime, duration) => dispatch(updateTime(currentTime, duration))}
+                          playlist={this.props.playlist}
+                          onRemoveClick={trackinfo => dispatch(removeTrack(trackinfo))}
+                          onPlayClick={trackinfo => dispatch(playTrack(trackinfo))}  />
           </div>
         <StatusBar libraryStatus={this.props.library.status} />
       </div>

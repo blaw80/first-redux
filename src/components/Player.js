@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Playlist from './Playlist';
 
 class ProgressBar extends React.Component{
   handleClick(e){
@@ -88,6 +89,10 @@ export default class AudioPlayer extends React.Component {
                       duration={this.props.duration} />
         <Controls playClick={this.playAudio.bind(this)}
                   isPlaying={this.props.isPlaying} />
+        <h2>current playlist:</h2>
+        <Playlist playlist={this.props.playlist}
+                  onRemoveClick={this.props.onRemoveClick}
+                  onPlayClick={this.props.onPlayClick} />
       </div>
     );
   }
