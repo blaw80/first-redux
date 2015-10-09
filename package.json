@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "jquery": "^2.1.4",
-    "react": "^0.13.0",
+    "react": "^0.14.0",
     "react-redux": "^3.0.0",
     "redux": "^3.0.0",
     "redux-actions": "^0.8.0",

@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 
 class ProgressBar extends React.Component{
   handleClick(e){
+    //calculate the new position...
     let duration = Math.floor(this.props.duration);
     let position = e.nativeEvent.offsetX;
     let barWidth = React.findDOMNode(this.refs.pbar).clientWidth;
     let newPosition = duration * ( position / barWidth );
-    //this is a terrible hack - if i put the audio element in this component and
-    // all the playback methods as well, i wouldn't have to pass the ref like this
-    // OR - should i be listening for a click on this node one level up?
-  //  let playerElement = React.findDOMNode(this.props.player);
-    //playerElement.currentTime = newPosition;
+    // and send it off to the parent for updating the AUDIO element
     this.props.progressBarClick(newPosition);
   }
 
@@ -31,31 +28,36 @@ class ProgressBar extends React.Component{
 
 export default class Controls extends React.Component {
 
+  componentDidUpdate(prevProps){
+    if (this.props.player.playing.key !== prevProps.player.playing.key){
+      let playerElement = React.findDOMNode(this.refs.player);
+      playerElement.load();
+      playerElement.play();
+    }
+  }
+
   componentDidMount() {
     let playerElement = React.findDOMNode(this.refs.player);
 
     playerElement.addEventListener('playing', this.togglePlay.bind(this, true));
     playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
     playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this, playerElement));
+    // playerElement.addEventListener('loadedmetadata', this.newTrackLoaded);
     // playerElement.addEventListener('canplay', this.audioReady);
     // playerElement.addEventListener('ended', this.audioEnded);
   }
-
-  componentDidUpdate(prevProps){
-    if (this.props.player.playing.key !== prevProps.player.playing.key){
-      let playerElement = React.findDOMNode(this.refs.player);
-      playerElement.load(this.props.player.playing.url);
-      playerElement.play();
-    }
+  newTrackLoaded(){
+    console.log('new track loads');
+    let playerElement = React.findDOMNode(this.refs.player);
+    this.props.setDuration(playerElement.duration)
   }
-
 // just put this method straight into the event handler?
   togglePlay(bool){
     this.props.togglePlay(bool);
   }
   audioUpdate(playerElement) {
     if (Math.floor(playerElement.currentTime) !== this.props.player.time){
-      this.props.updateTime(playerElement.currentTime, playerElement.duration);
+      this.props.updateTime(playerElement.currentTime);
     }
   }
   playAudio(){
@@ -71,7 +73,9 @@ export default class Controls extends React.Component {
   }
 
   progressBarClick(newPosition) {
-    console.log(Math.floor(newPosition));
+/////////////////////////////////////////////////////////
+// THIS REALLY BOTHERS ME BUT I CAN'T FIGURE OUT HOW TO BIND THIS PROPERLY
+////////////////////////////////////////////////////////////
     let playerElement = document.getElementById('player');
     playerElement.currentTime = Math.floor(newPosition);
   }
@@ -82,7 +86,8 @@ export default class Controls extends React.Component {
 
     return (
       <div>
-        <audio ref='player' id='player' controls >
+        <audio onLoadedMetadata={this.newTrackLoaded.bind(this)}
+              ref='player' id='player' controls >
           <source src={this.props.player.playing.url} />
         </audio>
         <ProgressBar time={this.props.player.time}

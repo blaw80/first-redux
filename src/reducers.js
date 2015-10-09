@@ -51,7 +51,9 @@ const player = handleActions({
   PLAY_TRACK: (state, action) => ( {time: state.time, playing: action.payload,
                                     duration: state.duration}),
   UPDATE_TIME: (state, action) => ({playing: state.playing, time: action.payload.currentTime,
-                                    duration: action.payload.duration}),
+                                    duration: state.duration}),
+  SET_DURATION: (state, action) => ({playing: state.playing, time: state.time,
+                                    duration: action.payload}),
   TOGGLE_PLAY: (state, action) => ({time: state.time, duration: state.duration,
                                     playing: {...state.playing, currentlyPlaying: action.payload}})
 }, { playing: {url: '', currentlyPlaying: false}, time: 0, duration: 1 } )
