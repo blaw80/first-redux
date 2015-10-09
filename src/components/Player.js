@@ -11,7 +11,6 @@ export default class AudioPlayer extends React.Component {
         <Controls isPlaying={this.props.isPlaying}
                   time={this.props.time}
                   duration={this.props.duration}
-                  player={this.refs.player}
                   src={this.props.src}
                   togglePlay={this.props.togglePlay}
                   audioUpdate={this.props.audioUpdate}
@@ -19,6 +18,7 @@ export default class AudioPlayer extends React.Component {
                   isPlaying={this.props.isPlaying} />
         <h2>current playlist:</h2>
         <Playlist playlist={this.props.playlist}
+                  currentTrack={this.props.currentTrack}
                   onRemoveClick={this.props.onRemoveClick}
                   onPlayClick={this.props.onPlayClick} />
       </div>

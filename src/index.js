@@ -28,6 +28,6 @@ React.render(
 // Dispatch some actions
 // store.dispatch(addTrack({url: '#', song: '1234', artist:'pppppp'}));
 // store.dispatch(addTrack('listen about reducers'));
-// store.dispatch(addTrack('Learn about drugs'));
+// store.dispatch(addTrack('Learn about songs'));
 // store.dispatch(removeTrack(2));
 //store.dispatch(removeTrack(2));

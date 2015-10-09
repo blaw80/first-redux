@@ -10,17 +10,23 @@ class PlaylistItem extends Component{
   handlePlayClick(e){
     e.preventDefault();
     this.props.onPlayClick(this.props.trackinfo);
-    // use a promise here to start the player after track is loaded?
     // if so: send duration to the store here instead of on updateTime?
   }
 
   render(){
+    let highlight = {
+      background: 'black',
+      color: 'white'
+    }
+
     return(
-      <li className='list-group-item'>
-      <span onDoubleClick={(e)=> this.handlePlayClick(e)}>{this.props.trackinfo.title }, {this.props.trackinfo.artist}</span>
-       <span onClick={(e) => this.handleRemoveClick(e)}
-       className="fa fa-trash-o"
-       style={{float:'right'}}></span></li>
+      <li className='list-group-item' style={this.props.currentTrack == this.props.trackinfo.key ? highlight : {}}>
+          <span onDoubleClick={(e)=> this.handlePlayClick(e)}>
+          {this.props.trackinfo.title }, {this.props.trackinfo.artist}</span>
+          <span onClick={(e) => this.handleRemoveClick(e)}
+                className="fa fa-trash-o"
+                style={{float:'right'}}></span>
+      </li>
     );
   }
 }
@@ -31,8 +37,11 @@ export default class Playlist extends Component{
     let playlistNodes = this.props.playlist.map((node, index) => {
       node.key = index;
       return (
-        <PlaylistItem key={index} trackinfo={node} onRemoveClick={this.props.onRemoveClick}
-          onPlayClick={this.props.onPlayClick} />
+        <PlaylistItem key={index}
+                      trackinfo={node}
+                      currentTrack={this.props.currentTrack}
+                      onRemoveClick={this.props.onRemoveClick}
+                      onPlayClick={this.props.onPlayClick} />
       );
     });
 

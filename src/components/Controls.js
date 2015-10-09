@@ -7,6 +7,8 @@ class ProgressBar extends React.Component{
     let barWidth = React.findDOMNode(this.refs.pbar).clientWidth;
 
     let newPosition = duration * ( position / barWidth );
+    //this is a terrible hack - if i put the audio element in this component and
+    // all the playback methods as well, i wouldn't have to pass the ref like this
     let playerElement = React.findDOMNode(this.props.player);
     playerElement.currentTime = newPosition;
   }
@@ -36,7 +38,15 @@ export default class Controls extends React.Component {
     // playerElement.addEventListener('canplay', this.audioReady);
     // playerElement.addEventListener('ended', this.audioEnded);
   }
-
+  componentWillReceiveProps(nextProps){
+// should really be using state.player.playing.key instead here
+    if (this.props.src !== nextProps.src){
+      let playerElement = React.findDOMNode(this.refs.player);
+      playerElement.load();
+      playerElement.play();
+    }
+  }
+// just put this method straight into the event handler?
   togglePlay(bool){
     this.props.togglePlay(bool);
   }
