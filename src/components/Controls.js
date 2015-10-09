@@ -9,6 +9,7 @@ class ProgressBar extends React.Component{
     let newPosition = duration * ( position / barWidth );
     //this is a terrible hack - if i put the audio element in this component and
     // all the playback methods as well, i wouldn't have to pass the ref like this
+    // OR - should i be listening for a click on this node one level up?
     let playerElement = React.findDOMNode(this.props.player);
     playerElement.currentTime = newPosition;
   }
@@ -38,26 +39,27 @@ export default class Controls extends React.Component {
     // playerElement.addEventListener('canplay', this.audioReady);
     // playerElement.addEventListener('ended', this.audioEnded);
   }
-  componentWillReceiveProps(nextProps){
-// should really be using state.player.playing.key instead here
-    if (this.props.src !== nextProps.src){
+
+  componentDidUpdate(prevProps){
+    if (this.props.player.playing.key !== prevProps.player.playing.key){
       let playerElement = React.findDOMNode(this.refs.player);
-      playerElement.load();
+      playerElement.load(this.props.player.playing.url);
       playerElement.play();
     }
   }
+
 // just put this method straight into the event handler?
   togglePlay(bool){
     this.props.togglePlay(bool);
   }
   audioUpdate(playerElement) {
-    if (Math.floor(playerElement.currentTime) !== this.props.time){
+    if (Math.floor(playerElement.currentTime) !== this.props.player.time){
       this.props.updateTime(playerElement.currentTime, playerElement.duration);
     }
   }
   playAudio(){
     let playerElement = React.findDOMNode(this.refs.player);
-    if ( this.props.isPlaying )
+    if ( this.props.player.playing.currentlyPlaying )
       {
         playerElement.pause();
       }
@@ -70,19 +72,20 @@ export default class Controls extends React.Component {
   render(){
     let play = <i className='fa fa-play'></i>;
     let pause = <i className='fa fa-pause'></i>;
+
     return (
       <div>
         <audio ref='player' id='player' controls >
-          <source src={this.props.src} />
+          <source src={this.props.player.playing.url} />
         </audio>
-        <ProgressBar time={this.props.time}
-                      duration={this.props.duration}
+        <ProgressBar time={this.props.player.time}
+                      duration={this.props.player.duration}
                       player={this.refs.player}/>
         <button type="button"
                 className="btn btn-default">RW</button>
         <button onClick={this.playAudio.bind(this)}
                 type="button"
-                className="btn btn-default">{this.props.isPlaying ? pause : play }</button>
+                className="btn btn-default">{this.props.player.playing.currentlyPlaying ? pause : play }</button>
         <button type="button"
                 className="btn btn-default">ff</button>
       </div>

@@ -8,17 +8,13 @@ export default class AudioPlayer extends React.Component {
     return (
       <div className='col-md-8' style={{maxWidth: 400 +'px'}} >
         <h1>audio player</h1>
-        <Controls isPlaying={this.props.isPlaying}
-                  time={this.props.time}
-                  duration={this.props.duration}
-                  src={this.props.src}
+        <Controls player={this.props.player}
                   togglePlay={this.props.togglePlay}
                   audioUpdate={this.props.audioUpdate}
-                  updateTime={this.props.updateTime}
-                  isPlaying={this.props.isPlaying} />
+                  updateTime={this.props.updateTime} />
         <h2>current playlist:</h2>
         <Playlist playlist={this.props.playlist}
-                  currentTrack={this.props.currentTrack}
+                  currentTrack={this.props.player.playing.key}
                   onRemoveClick={this.props.onRemoveClick}
                   onPlayClick={this.props.onPlayClick} />
       </div>
