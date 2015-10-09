@@ -5,13 +5,13 @@ class ProgressBar extends React.Component{
     let duration = Math.floor(this.props.duration);
     let position = e.nativeEvent.offsetX;
     let barWidth = React.findDOMNode(this.refs.pbar).clientWidth;
-
     let newPosition = duration * ( position / barWidth );
     //this is a terrible hack - if i put the audio element in this component and
     // all the playback methods as well, i wouldn't have to pass the ref like this
     // OR - should i be listening for a click on this node one level up?
-    let playerElement = React.findDOMNode(this.props.player);
-    playerElement.currentTime = newPosition;
+  //  let playerElement = React.findDOMNode(this.props.player);
+    //playerElement.currentTime = newPosition;
+    this.props.progressBarClick(newPosition);
   }
 
   render(){
@@ -30,6 +30,7 @@ class ProgressBar extends React.Component{
 }
 
 export default class Controls extends React.Component {
+
   componentDidMount() {
     let playerElement = React.findDOMNode(this.refs.player);
 
@@ -69,6 +70,12 @@ export default class Controls extends React.Component {
     }
   }
 
+  progressBarClick(newPosition) {
+    console.log(Math.floor(newPosition));
+    let playerElement = document.getElementById('player');
+    playerElement.currentTime = Math.floor(newPosition);
+  }
+
   render(){
     let play = <i className='fa fa-play'></i>;
     let pause = <i className='fa fa-pause'></i>;
@@ -80,7 +87,8 @@ export default class Controls extends React.Component {
         </audio>
         <ProgressBar time={this.props.player.time}
                       duration={this.props.player.duration}
-                      player={this.refs.player}/>
+                      player={this.refs.player}
+                      progressBarClick={this.progressBarClick} />
         <button type="button"
                 className="btn btn-default">RW</button>
         <button onClick={this.playAudio.bind(this)}
