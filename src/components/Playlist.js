@@ -21,8 +21,10 @@ class PlaylistItem extends Component{
     }
 
     return(
-      <li className='list-group-item' style={this.props.currentTrack == this.props.trackinfo.key ? highlight : {}}>
-          <span onDoubleClick={(e)=> this.handlePlayClick(e)}>
+      <li  onDoubleClick={(e)=> this.handlePlayClick(e)}
+            className='list-group-item'
+            style={this.props.currentTrack == this.props.trackinfo.key ? highlight : {}} >
+          <span>
           {this.props.trackinfo.title }, {this.props.trackinfo.artist}</span>
           <span onClick={(e) => this.handleRemoveClick(e)}
                 className="fa fa-trash-o"

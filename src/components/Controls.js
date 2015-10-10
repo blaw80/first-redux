@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 class ProgressBar extends React.Component{
   handleClick(e){
     //calculate the new position...
     let duration = Math.floor(this.props.duration);
     let position = e.nativeEvent.offsetX;
-    let barWidth = React.findDOMNode(this.refs.pbar).clientWidth;
+    let barWidth = ReactDOM.findDOMNode(this.refs.pbar).clientWidth;
     let newPosition = duration * ( position / barWidth );
     // and send it off to the parent for updating the AUDIO element
     this.props.progressBarClick(newPosition);
@@ -30,14 +31,14 @@ export default class Controls extends React.Component {
 
   componentDidUpdate(prevProps){
     if (this.props.player.playing.key !== prevProps.player.playing.key){
-      let playerElement = React.findDOMNode(this.refs.player);
+      let playerElement = ReactDOM.findDOMNode(this.refs.player);
       playerElement.load();
       playerElement.play();
     }
   }
 
   componentDidMount() {
-    let playerElement = React.findDOMNode(this.refs.player);
+    let playerElement = ReactDOM.findDOMNode(this.refs.player);
 
     playerElement.addEventListener('playing', this.togglePlay.bind(this, true));
     playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
@@ -48,7 +49,7 @@ export default class Controls extends React.Component {
   }
   newTrackLoaded(){
     console.log('new track loads');
-    let playerElement = React.findDOMNode(this.refs.player);
+    let playerElement = ReactDOM.findDOMNode(this.refs.player);
     this.props.setDuration(playerElement.duration)
   }
 // just put this method straight into the event handler?
@@ -61,7 +62,7 @@ export default class Controls extends React.Component {
     }
   }
   playAudio(){
-    let playerElement = React.findDOMNode(this.refs.player);
+    let playerElement = ReactDOM.findDOMNode(this.refs.player);
     if ( this.props.player.playing.currentlyPlaying )
       {
         playerElement.pause();

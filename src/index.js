@@ -1,9 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { createStore, compose, applyMiddleware } from 'redux';
 import { devTools, persistState } from 'redux-devtools';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import { Provider } from 'react-redux';
-import configureStore from './configureStore'
+import configureStore from './configureStore';
+import ReactDOMServer from 'react-dom/server';
 
 import musicApp from './reducers.js';
 import MusicApp from './components/MusicApp';
@@ -11,10 +13,11 @@ import MusicApp from './components/MusicApp';
 const store = configureStore();
 
 let rootElement = document.getElementById('root');
-React.render(
+
+ReactDOM.render(
   <div>
     <Provider store={store}>
-      {() => <MusicApp />}
+      {<MusicApp />}
     </Provider>
     <DebugPanel top right bottom>
     <DevTools store={store}
