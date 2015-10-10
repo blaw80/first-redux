@@ -15,15 +15,22 @@ class PlaylistItem extends Component{
   }
 
   render(){
-    let highlight = {
-      background: 'black',
-      color: 'white'
+    let style = {
+      highlight: {
+        background: 'black',
+        color: 'white'
+      },
+      base: {
+        MozUserSelect:'none',
+        WebkitUserSelect:'none',
+        MsUserSelect:'none'
+      }
     }
 
     return(
       <li  onDoubleClick={(e)=> this.handlePlayClick(e)}
             className='list-group-item'
-            style={this.props.currentTrack == this.props.trackinfo.key ? highlight : {}} >
+            style={this.props.currentTrack == this.props.trackinfo.key ? {...style.highlight, ...style.base} : style.base} >
           <span>
           {this.props.trackinfo.title }, {this.props.trackinfo.artist}</span>
           <span onClick={(e) => this.handleRemoveClick(e)}
