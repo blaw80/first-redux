@@ -29,6 +29,13 @@ class ProgressBar extends React.Component{
 
 export default class Controls extends React.Component {
 
+  componentWillReceiveProps(nextProps){
+    if (nextProps.playlist.length === 1 && this.props.playlist.length === 0) {
+      console.log(typeof(playerElement));
+      this.props.onPlayClick(nextProps.playlist[0])
+    }
+  }
+
   componentDidUpdate(prevProps){
     if (this.props.player.playing.key !== prevProps.player.playing.key){
       let playerElement = ReactDOM.findDOMNode(this.refs.player);
@@ -43,9 +50,9 @@ export default class Controls extends React.Component {
     playerElement.addEventListener('playing', this.togglePlay.bind(this, true));
     playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
     playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this, playerElement));
+    playerElement.addEventListener('ended', this.audioEnded.bind(this, playerElement));
     // playerElement.addEventListener('loadedmetadata', this.newTrackLoaded);
     // playerElement.addEventListener('canplay', this.audioReady);
-    // playerElement.addEventListener('ended', this.audioEnded);
   }
   newTrackLoaded(){
     console.log('new track loads');
@@ -60,6 +67,10 @@ export default class Controls extends React.Component {
     if (Math.floor(playerElement.currentTime) !== this.props.player.time){
       this.props.updateTime(playerElement.currentTime);
     }
+  }
+  audioEnded(playerElement){
+    // must first check if track is last in Playlist
+    // if not, then change state.player.playing to the next item in playlist array
   }
   playAudio(){
     let playerElement = ReactDOM.findDOMNode(this.refs.player);

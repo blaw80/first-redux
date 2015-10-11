@@ -5,6 +5,7 @@ import { devTools, persistState } from 'redux-devtools';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
+
 import ReactDOMServer from 'react-dom/server';
 
 import musicApp from './reducers.js';
