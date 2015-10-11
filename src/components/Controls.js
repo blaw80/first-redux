@@ -31,7 +31,6 @@ export default class Controls extends React.Component {
 
   componentWillReceiveProps(nextProps){
     if (nextProps.playlist.length === 1 && this.props.playlist.length === 0) {
-      console.log(typeof(playerElement));
       this.props.onPlayClick(nextProps.playlist[0])
     }
   }
