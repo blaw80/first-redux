@@ -54,7 +54,6 @@ export default class Controls extends React.Component {
     // playerElement.addEventListener('canplay', this.audioReady);
   }
   newTrackLoaded(){
-    console.log('new track loads');
     let playerElement = ReactDOM.findDOMNode(this.refs.player);
     this.props.setDuration(playerElement.duration)
   }
@@ -68,8 +67,11 @@ export default class Controls extends React.Component {
     }
   }
   audioEnded(playerElement){
-    // must first check if track is last in Playlist
-    // if not, then change state.player.playing to the next item in playlist array
+    // first make sure current track is NOT last in Playlist
+    let trackIndex = this.props.player.playing.key
+    if ( trackIndex !== this.props.playlist.length -1 ){
+      this.props.onPlayClick(this.props.playlist[trackIndex+1])
+    }
   }
   playAudio(){
     let playerElement = ReactDOM.findDOMNode(this.refs.player);
