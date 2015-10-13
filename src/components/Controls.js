@@ -84,6 +84,14 @@ export default class Controls extends React.Component {
       playerElement.play();
     }
   }
+  rewindAudio(){
+    let playerElement = ReactDOM.findDOMNode(this.refs.player);
+    let trackIndex = this.props.player.playing.key;
+    if (playerElement.currentTime > 2){ playerElement.currentTime = 0}
+    else if (trackIndex > 0){
+      this.props.onPlayClick(this.props.playlist[trackIndex-1])
+     }
+  }
 
   progressBarClick(newPosition) {
 /////////////////////////////////////////////////////////
@@ -107,7 +115,8 @@ export default class Controls extends React.Component {
                       duration={this.props.player.duration}
                       player={this.refs.player}
                       progressBarClick={this.progressBarClick} />
-        <button type="button"
+        <button onClick={this.rewindAudio.bind(this)}
+                type="button"
                 className="btn btn-default">RW</button>
         <button onClick={this.playAudio.bind(this)}
                 type="button"
