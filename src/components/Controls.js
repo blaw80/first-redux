@@ -92,6 +92,13 @@ export default class Controls extends React.Component {
       this.props.onPlayClick(this.props.playlist[trackIndex-1])
      }
   }
+  ffAudio(){
+    let playerElement = ReactDOM.findDOMNode(this.refs.player);
+    let trackIndex = this.props.player.playing.key;
+    if (trackIndex < this.props.playlist.length -1){
+      this.props.onPlayClick(this.props.playlist[trackIndex+1]);
+    }
+  }
 
   progressBarClick(newPosition) {
 /////////////////////////////////////////////////////////
@@ -117,12 +124,15 @@ export default class Controls extends React.Component {
                       progressBarClick={this.progressBarClick} />
         <button onClick={this.rewindAudio.bind(this)}
                 type="button"
-                className="btn btn-default">RW</button>
+                className="btn btn-default">
+                <i className='fa fa-step-backward'></i></button>
         <button onClick={this.playAudio.bind(this)}
                 type="button"
                 className="btn btn-default">{this.props.player.playing.currentlyPlaying ? pause : play }</button>
-        <button type="button"
-                className="btn btn-default">ff</button>
+        <button onClick={this.ffAudio.bind(this)}
+                type="button"
+                className="btn btn-default">
+                <i className='fa fa-step-forward'></i></button>
       </div>
     );
   }
