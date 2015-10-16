@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import audioControls from './audioControlModule.js'
 
 class ProgressBar extends React.Component{
   handleClick(e){
@@ -44,18 +45,13 @@ export default class Controls extends React.Component {
     }
   }
   componentDidMount() {
-    this.playerElement = this.refs.player;
 // if this app ever gets multiple pages, unbind these listeners in componenDidUnmount
     this.playerElement.addEventListener('playing', this.togglePlay.bind(this, true));
     this.playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
     this.playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this, this.playerElement));
-    this.playerElement.addEventListener('ended', this.audioEnded.bind(this, this.playerElement));
+    this.playerElement.addEventListener('ended', this.audioEnded.bind(this));
     // playerElement.addEventListener('loadedmetadata', this.newTrackLoaded);
     // playerElement.addEventListener('canplay', this.audioReady);
-  }
-  newTrackLoaded(){
-    let duration = this.playerElement.duration;
-    this.props.setDuration(duration)
   }
   togglePlay(bool){
     this.props.togglePlay(bool);
@@ -65,61 +61,35 @@ export default class Controls extends React.Component {
       this.props.updateTime(playerElement.currentTime);
     }
   }
-  audioEnded(playerElement){
+  audioEnded(){
     // first make sure current track is NOT last in Playlist
     let trackIndex = this.props.player.playing.key
     if ( trackIndex !== this.props.playlist.length -1 ){
       this.props.onPlayClick(this.props.playlist[trackIndex+1])
     }
   }
-  playAudio(){
-    if ( this.props.player.playing.currentlyPlaying ) {
-        this.playerElement.pause();
-      }
-    else {
-      this.playerElement.load();
-      this.playerElement.play();
-    }
-  }
-  rewindAudio(){
-    let trackIndex = this.props.player.playing.key;
-    if (this.playerElement.currentTime > 2){ this.playerElement.currentTime = 0}
-    else if (trackIndex > 0){
-      this.props.onPlayClick(this.props.playlist[trackIndex-1])
-     }
-  }
-  ffAudio(){
-    let trackIndex = this.props.player.playing.key;
-    if (trackIndex < this.props.playlist.length -1){
-      this.props.onPlayClick(this.props.playlist[trackIndex+1]);
-    }
-  }
-  progressBarClick(newPosition) {
-    this.playerElement.currentTime = Math.floor(newPosition);
-  }
-
   render(){
     let play = <i className='fa fa-play'></i>;
     let pause = <i className='fa fa-pause'></i>;
 
     return (
       <div>
-        <audio onLoadedMetadata={this.newTrackLoaded.bind(this)}
+        <audio onLoadedMetadata={audioControls.newTrackLoaded.bind(this)}
               ref='player' id='player' controls >
           <source src={this.props.player.playing.url} />
         </audio>
         <ProgressBar time={this.props.player.time}
                       duration={this.props.player.duration}
                       player={this.refs.player}
-                      progressBarClick={this.progressBarClick.bind(this)} />
-        <button onClick={this.rewindAudio.bind(this)}
+                      progressBarClick={audioControls.progressBarClick.bind(this)} />
+        <button onClick={audioControls.rewindAudio.bind(this)}
                 type="button"
                 className="btn btn-default">
                 <i className='fa fa-step-backward'></i></button>
-        <button onClick={this.playAudio.bind(this)}
+        <button onClick={audioControls.playAudio.bind(this)}
                 type="button"
                 className="btn btn-default">{this.props.player.playing.currentlyPlaying ? pause : play }</button>
-        <button onClick={this.ffAudio.bind(this)}
+        <button onClick={audioControls.ffAudio.bind(this)}
                 type="button"
                 className="btn btn-default">
                 <i className='fa fa-step-forward'></i></button>
