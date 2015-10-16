@@ -28,36 +28,35 @@ class ProgressBar extends React.Component{
 }
 
 export default class Controls extends React.Component {
-
+  constructor(){
+    super();
+    this.playerElement = {};
+  }
   componentWillReceiveProps(nextProps){
     if (nextProps.playlist.length === 1 && this.props.playlist.length === 0) {
       this.props.onPlayClick(nextProps.playlist[0])
     }
   }
-
   componentDidUpdate(prevProps){
     if (this.props.player.playing.key !== prevProps.player.playing.key){
-      let playerElement = ReactDOM.findDOMNode(this.refs.player);
-      playerElement.load();
-      playerElement.play();
+      this.playerElement.load();
+      this.playerElement.play();
     }
   }
-
   componentDidMount() {
-    let playerElement = ReactDOM.findDOMNode(this.refs.player);
-
-    playerElement.addEventListener('playing', this.togglePlay.bind(this, true));
-    playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
-    playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this, playerElement));
-    playerElement.addEventListener('ended', this.audioEnded.bind(this, playerElement));
+    this.playerElement = this.refs.player;
+// if this app ever gets multiple pages, unbind these listeners in componenDidUnmount
+    this.playerElement.addEventListener('playing', this.togglePlay.bind(this, true));
+    this.playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
+    this.playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this, this.playerElement));
+    this.playerElement.addEventListener('ended', this.audioEnded.bind(this, this.playerElement));
     // playerElement.addEventListener('loadedmetadata', this.newTrackLoaded);
     // playerElement.addEventListener('canplay', this.audioReady);
   }
   newTrackLoaded(){
-    let playerElement = ReactDOM.findDOMNode(this.refs.player);
-    this.props.setDuration(playerElement.duration)
+    let duration = this.playerElement.duration;
+    this.props.setDuration(duration)
   }
-// just put this method straight into the event handler?
   togglePlay(bool){
     this.props.togglePlay(bool);
   }
@@ -74,38 +73,29 @@ export default class Controls extends React.Component {
     }
   }
   playAudio(){
-    let playerElement = ReactDOM.findDOMNode(this.refs.player);
-    if ( this.props.player.playing.currentlyPlaying )
-      {
-        playerElement.pause();
+    if ( this.props.player.playing.currentlyPlaying ) {
+        this.playerElement.pause();
       }
     else {
-      playerElement.load();
-      playerElement.play();
+      this.playerElement.load();
+      this.playerElement.play();
     }
   }
   rewindAudio(){
-    let playerElement = ReactDOM.findDOMNode(this.refs.player);
     let trackIndex = this.props.player.playing.key;
-    if (playerElement.currentTime > 2){ playerElement.currentTime = 0}
+    if (this.playerElement.currentTime > 2){ this.playerElement.currentTime = 0}
     else if (trackIndex > 0){
       this.props.onPlayClick(this.props.playlist[trackIndex-1])
      }
   }
   ffAudio(){
-    let playerElement = ReactDOM.findDOMNode(this.refs.player);
     let trackIndex = this.props.player.playing.key;
     if (trackIndex < this.props.playlist.length -1){
       this.props.onPlayClick(this.props.playlist[trackIndex+1]);
     }
   }
-
   progressBarClick(newPosition) {
-/////////////////////////////////////////////////////////
-// THIS REALLY BOTHERS ME BUT I CAN'T FIGURE OUT HOW TO BIND THIS PROPERLY
-////////////////////////////////////////////////////////////
-    let playerElement = document.getElementById('player');
-    playerElement.currentTime = Math.floor(newPosition);
+    this.playerElement.currentTime = Math.floor(newPosition);
   }
 
   render(){
@@ -121,7 +111,7 @@ export default class Controls extends React.Component {
         <ProgressBar time={this.props.player.time}
                       duration={this.props.player.duration}
                       player={this.refs.player}
-                      progressBarClick={this.progressBarClick} />
+                      progressBarClick={this.progressBarClick.bind(this)} />
         <button onClick={this.rewindAudio.bind(this)}
                 type="button"
                 className="btn btn-default">
