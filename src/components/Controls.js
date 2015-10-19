@@ -12,14 +12,14 @@ class ProgressBar extends React.Component{
     // and send it off to the parent for updating the AUDIO element
     this.props.progressBarClick(newPosition);
   }
-
+  ///////////////////////FIX THIS
+///////////////////ONCLICK is broken after adding the stacked pbar for loading
   render(){
-    let elapsed = Math.floor((Math.floor(this.props.time) / Math.floor(this.props.duration)) * 100);
+    let elapsed = Math.floor(this.props.time / Math.floor(this.props.duration) * 100);
     let buffered = this.props.buffered - elapsed;
 
     return <div>
-            <h2>The current elapsed time is: {elapsed} </h2>
-            <div className="progress" onClick={this.handleClick.bind(this)} ref='pbar'>
+            <div style={{marginBottom: 10 + 'px'}}className="progress" onClick={this.handleClick.bind(this)} ref='pbar'>
               <div className="progress-bar" role="progressbar" aria-valuenow={elapsed}
                     aria-valuemin="0" aria-valuemax="100" style={{width: elapsed + '%' }}>
                 <span className="sr-only"></span>
@@ -37,7 +37,7 @@ export default class Controls extends React.Component {
   constructor(){
     super();
     this.playerElement = {};
-    this.buffered = 1;
+    this.buffered = 0;
   }
   componentWillReceiveProps(nextProps){
     if (nextProps.playlist.length === 1 && this.props.playlist.length === 0) {
@@ -61,10 +61,6 @@ export default class Controls extends React.Component {
     // this.playerElement.addEventListener('canplay', this.audioReady);
     // playerElement.addEventListener('loadedmetadata', this.newTrackLoaded);
   }
-  // audioReady(){
-  //   alert('loaded stuff');
-  //   this.readyStatus = true;
-  // }
   getLoadStatus(){
     let buffered =  this.playerElement.buffered.end(this.playerElement.buffered.length -1);
     this.buffered = Math.floor(( buffered / this.playerElement.duration) * 100);
@@ -88,13 +84,17 @@ export default class Controls extends React.Component {
   render(){
     let play = <i className='fa fa-play'></i>;
     let pause = <i className='fa fa-pause'></i>;
-
+    let seconds = this.props.player.time % 60;
+    let minutes = Math.floor(this.props.player.time / 60);
+    if (seconds < 10) { seconds = '0'+seconds}
     return (
       <div>
         <audio onLoadedMetadata={audioControls.newTrackLoaded.bind(this)}
-              ref='player' id='player' controls >
+              ref='player' id='player' >
           <source src={this.props.player.playing.url} />
         </audio>
+        <h4>now playing:</h4>
+        {this.props.playlist.length ? <p>{this.props.player.playing.artist}, {this.props.player.playing.title} - {minutes}:{seconds}</p> : 'add a track from the library to start the music'}
         <ProgressBar time={this.props.player.time}
                       buffered={this.buffered}
                       duration={this.props.player.duration}

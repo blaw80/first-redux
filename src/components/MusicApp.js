@@ -11,12 +11,11 @@ class MusicApp extends Component {
   componentDidMount(){
     this.props.dispatch(loadLibrary())
   }
-// i really need to re-write this to be simpler about passing my props!!
   render() {
     const { dispatch } = this.props;
     return (
       <div className='row' style={{margin: '50px'}}>
-        <h1>music app</h1>
+        <h1>make a playlist!</h1>
         <Library songs={this.props.library.songs}
                   onAddClick={trackinfo => dispatch(addTrack(trackinfo))} />
         <AudioPlayer player={this.props.player}

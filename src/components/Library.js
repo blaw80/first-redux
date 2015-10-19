@@ -27,7 +27,7 @@ export default class Library extends Component {
 
     return (
         <div className='col-md-4'>
-            <h2>browse content here:</h2>
+            <h4>music library</h4>
             <table className='table'>
             <thead>
               <tr><td>Song</td><td>Artist</td><td>info</td><td>add</td></tr>
