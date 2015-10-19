@@ -15,7 +15,7 @@ class ProgressBar extends React.Component{
 
   render(){
     let elapsed = Math.floor((Math.floor(this.props.time) / Math.floor(this.props.duration)) * 100);
-    let buffered = this.props.buffered;
+    let buffered = this.props.buffered - elapsed;
 
     return <div>
             <h2>The current elapsed time is: {elapsed} </h2>
@@ -38,7 +38,6 @@ export default class Controls extends React.Component {
     super();
     this.playerElement = {};
     this.buffered = 1;
-    this.readyStatus = false;
   }
   componentWillReceiveProps(nextProps){
     if (nextProps.playlist.length === 1 && this.props.playlist.length === 0) {
