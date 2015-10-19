@@ -45,6 +45,7 @@ export default class Controls extends React.Component {
     }
   }
   componentDidMount() {
+    this.playerElement = this.refs.player
 // if this app ever gets multiple pages, unbind these listeners in componenDidUnmount
     this.playerElement.addEventListener('playing', this.togglePlay.bind(this, true));
     this.playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
