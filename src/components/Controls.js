@@ -15,12 +15,17 @@ class ProgressBar extends React.Component{
 
   render(){
     let elapsed = Math.floor((Math.floor(this.props.time) / Math.floor(this.props.duration)) * 100);
+    let buffered = this.props.buffered;
 
     return <div>
             <h2>The current elapsed time is: {elapsed} </h2>
             <div className="progress" onClick={this.handleClick.bind(this)} ref='pbar'>
               <div className="progress-bar" role="progressbar" aria-valuenow={elapsed}
                     aria-valuemin="0" aria-valuemax="100" style={{width: elapsed + '%' }}>
+                <span className="sr-only"></span>
+              </div>
+              <div className="progress-bar progress-bar-striped progress-bar-success" role="progressbar" aria-valuenow={buffered}
+                    aria-valuemin="0" aria-valuemax="100" style={{width: buffered + '%' }}>
                 <span className="sr-only"></span>
               </div>
             </div>
@@ -32,6 +37,8 @@ export default class Controls extends React.Component {
   constructor(){
     super();
     this.playerElement = {};
+    this.buffered = 1;
+    this.readyStatus = false;
   }
   componentWillReceiveProps(nextProps){
     if (nextProps.playlist.length === 1 && this.props.playlist.length === 0) {
@@ -51,8 +58,18 @@ export default class Controls extends React.Component {
     this.playerElement.addEventListener('pause', this.togglePlay.bind(this, false));
     this.playerElement.addEventListener('timeupdate', this.audioUpdate.bind(this, this.playerElement));
     this.playerElement.addEventListener('ended', this.audioEnded.bind(this));
+    this.playerElement.addEventListener('progress', this.getLoadStatus.bind(this));
+    // this.playerElement.addEventListener('canplay', this.audioReady);
     // playerElement.addEventListener('loadedmetadata', this.newTrackLoaded);
-    // playerElement.addEventListener('canplay', this.audioReady);
+  }
+  // audioReady(){
+  //   alert('loaded stuff');
+  //   this.readyStatus = true;
+  // }
+  getLoadStatus(){
+    let buffered =  this.playerElement.buffered.end(this.playerElement.buffered.length -1);
+    this.buffered = Math.floor(( buffered / this.playerElement.duration) * 100);
+    console.log(this.buffered);
   }
   togglePlay(bool){
     this.props.togglePlay(bool);
@@ -80,6 +97,7 @@ export default class Controls extends React.Component {
           <source src={this.props.player.playing.url} />
         </audio>
         <ProgressBar time={this.props.player.time}
+                      buffered={this.buffered}
                       duration={this.props.player.duration}
                       player={this.refs.player}
                       progressBarClick={audioControls.progressBarClick.bind(this)} />
