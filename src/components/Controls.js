@@ -85,16 +85,19 @@ export default class Controls extends React.Component {
     let play = <i className='fa fa-play'></i>;
     let pause = <i className='fa fa-pause'></i>;
     let seconds = this.props.player.time % 60;
+    //OBJECT DESTRUCTURING IS AWESOME - USE THIS MORE
+    const {playlist, player} = this.props;
+    let {title, artist} = player.playing;
     let minutes = Math.floor(this.props.player.time / 60);
     if (seconds < 10) { seconds = '0'+seconds}
     return (
       <div>
         <audio onLoadedMetadata={audioControls.newTrackLoaded.bind(this)}
               ref='player' id='player' >
-          <source src={this.props.player.playing.url} />
+          <source src={player.playing.url} />
         </audio>
         <h4>now playing:</h4>
-        {this.props.playlist.length ? <p>{this.props.player.playing.artist}, {this.props.player.playing.title} - {minutes}:{seconds}</p> : 'add a track from the library to start the music'}
+        {playlist.length ? <p>{artist}, {title} - {minutes}:{seconds}</p> : 'add a track from the library to start the music'}
         <ProgressBar time={this.props.player.time}
                       buffered={this.buffered}
                       duration={this.props.player.duration}
